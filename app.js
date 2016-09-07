@@ -1,5 +1,6 @@
 'use strict';
-var books = require('./controllers/books');
+//var books = require('./controllers/books');
+var keeper = require('./controllers/keeper')
 var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
@@ -11,7 +12,11 @@ var app = module.exports = koa();
 // Logger
 app.use(logger());
 
-app.use(route.get('/', books.home));
+app.use(route.get('/', keeper.home));
+app.use(route.get('/list/', keeper.list));
+app.use(route.post('/cb17/', keeper.add));
+
+/*app.use(route.get('/', books.home));
 app.use(route.get('/books/', books.all));
 app.use(route.get('/view/books/', books.list));
 app.use(route.get('/books/:id', books.fetch));
@@ -21,7 +26,7 @@ app.use(route.delete('/books/:id', books.remove));
 app.use(route.options('/', books.options));
 app.use(route.trace('/', books.trace));
 app.use(route.head('/', books.head));
-
+*/
 
 
 // Serve static files

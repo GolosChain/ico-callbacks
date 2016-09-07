@@ -1,10 +1,10 @@
 {
-  "name": "koa-rest",
+  "name": "koa-rest-derivative",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node --harmony app.js",
-    "test": "mocha --harmony"
+    "start": "node app.js",
+    "test": "mocha "
   },
   "dependencies": {
     "co": "^4.4.0",

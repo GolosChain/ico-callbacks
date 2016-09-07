@@ -4,8 +4,11 @@
 
 {% block content %}
   <ul class="books">
-    {% for book in books %}
-      <li class="name">{{ book.name }}</li>
+    {% for receipt in receipts %}
+      <li class="name">{{ receipt.timestamp }}/ {{ receipt.value }}/
+        {{ receipt.input_address }}/ {{ receipt.destination }}/
+        {{ receipt.input_transaction_hash }}/ {{ receipt.transaction_hash }}
+      </li>
     {% endfor %}
   </ul>
 {% endblock %}

@@ -19,16 +19,16 @@ var render = views(__dirname + '/../views', {
   }
 });
 
+const logger = require('../utils/logger').getLogger('keeper')
+const print = logger.print;
+
 module.exports.home = function * home(next) {
-  console.log(this.req.connection.server)
-  console.log(this.request)  
   if ('GET' != this.method) return yield next;
   this.body = yield render('layout');
 };
 
 
 module.exports.list = function * list(next) {
-  console.log(this.request.header)
   if ('GET' != this.method) return yield next;
   this.body = yield render('list', {
     'receipts': yield receipts.find({})
@@ -37,7 +37,6 @@ module.exports.list = function * list(next) {
 
 // This must be avoided, use ajax in the view.
 module.exports.all = function * all(next) {
-  console.log(this.request.header)
   if ('GET' != this.method) return yield next;
   this.body = yield receipts.find({});
 };
@@ -65,6 +64,25 @@ module.exports.add = function * add(data,next) {
     limit: '5kb'
   });
   var inserted = yield receipts.insert(receipt);
+  print('domain', this.req.domain, true);
+  print('headers', this.req.headers, true);
+  print('receipt', receipt);
+  if (!inserted) {
+    this.throw(405, "The receipt couldn't be added.");
+  }
+  this.body = 'Done!';
+};
+
+module.exports.addget = function * add(data,next) {
+  print("addget")
+  if ('GET' != this.method) return yield next;
+  var receipt = yield parse(this, {
+    limit: '5kb'
+  });
+  var inserted = yield receipts.insert(receipt);
+  print('domain', this.req.domain, true);
+  print('headers', this.req.headers, true);
+  print('receipt', receipt);
   if (!inserted) {
     this.throw(405, "The receipt couldn't be added.");
   }
